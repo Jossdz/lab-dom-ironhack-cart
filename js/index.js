@@ -33,18 +33,19 @@ function calculateAll() {
   console.log($products)
   let totalPrice = 0
   $products.forEach(element => {
-    updateSubtotal(element)
-    console.log(element)
-    console.log(element.price)
-    let stringPrice = element.querySelector('.price span').innerText
+    const res = updateSubtotal(element)
+    // console.log('///////////=>', res)
+    // console.log(element)
+    // console.log(element.price)
+    // let stringPrice = element.querySelector('.price span').innerText
 
-    totalPrice += parseInt(stringPrice)
+    totalPrice += parseInt(res)
   });
   // ITERATION 3
   //... your code goes here
   let $totalAmount = document.querySelector('#total-value span')
   $totalAmount.innerText = totalPrice
-  console.log("this is the total price "+totalPrice)
+  console.log("this is the total price " + totalPrice)
 
 
 }
@@ -54,6 +55,10 @@ function calculateAll() {
 function removeProduct(event) {
   const target = event.currentTarget;
   console.log('The target in remove is:', target);
+  const parent = event.target.parentNode.parentNode.parentNode
+  const child = event.target.parentNode.parentNode
+  console.log('*=>', parent)
+  parent.removeChild(child)
   //... your code goes here
 }
 
@@ -72,13 +77,11 @@ function createProduct() {
 
   clonedRow.querySelector('.name span').innerText = newProductName
   clonedRow.querySelector('.price span').innerText = `${newProductPrice}.00`
+  clonedRow.querySelector('.btn.btn-remove').onclick = removeProduct
 
   // document.querySelector('.product').appendChild(clonedRow)
   // console.log(document.querySelector('#cart'))
   document.querySelector('#cart').appendChild(clonedRow)
-
-  
-
 }
 
 window.addEventListener('load', () => {
@@ -88,4 +91,6 @@ window.addEventListener('load', () => {
   const createProductBtn = document.getElementById('create')
   createProductBtn.addEventListener('click', createProduct)
   //... your code goes here
+  const removeButtons = document.querySelectorAll('.btn.btn-remove')
+  removeButtons.forEach($button => $button.onclick = removeProduct)
 });
